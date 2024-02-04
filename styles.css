@@ -5,7 +5,7 @@ body {
 }
 
 header.header {
-    background-color: #f2f2f2;
+    background-color: #cbf7ed;
     padding: 20px;
 }
 
@@ -41,7 +41,7 @@ h1 {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #d9534f;
     color: white;
 }
 
@@ -49,7 +49,7 @@ h1 {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #d9534f;
+    background-color: #087e8b;
     color: white;
 }
 
@@ -69,7 +69,7 @@ input[type="text"] {
 
 button {
     padding: 5px 10px;
-    background-color: #007bff;
+    background-color: #0b3954;
     color: white;
     border: none;
     border-radius: 5px;
@@ -95,4 +95,89 @@ button {
 
 .dividend-history-table th {
     background-color: #f2f2f2;
+}
+
+
+/* styles.css */
+
+
+/* Your existing styles */
+
+.dividend-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.dividend-history-table th,
+.dividend-history-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.dividend-history-table th {
+    background-color: #8ea8c3;
+}
+
+.dividend-history-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Set the background color for even rows */
+}
+
+.dividend-history-table tbody tr:nth-child(odd) {
+    background-color: #e6e6e6;
+    /* Set the background color for odd rows */
+}
+
+.dividend-history-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.dividend-history-table tbody tr:nth-child(odd) {
+    background-color: #e6e6e6;
+}
+
+
+/* Add styles for the date display */
+
+#date-display {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+header.header {
+    background-image: url("img/BG.png");
+    /* Assuming the CSS file is in the "PriceChangeTracker API FETCH JS" directory */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    font-family: Consolas, monospace;
+    /* Set font to Consolas with fallback to generic monospace */
+    color: white;
+    /* Set text color to white */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.header-left-name {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
 }
