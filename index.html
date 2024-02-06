@@ -20,11 +20,13 @@
         <div class="header-right">
             <button class="button-primary">Top Losers</button>
             <button class="button-secondary">Top Gainers</button>
-
+            <button class="refresh-button">Refresh</button>
             <form class="search-bar">
                 <input type="text" placeholder="Search For Symbol" id="search-input">
                 <button type="submit">Search</button>
             </form>
+
+
         </div>
     </header>
 
@@ -35,6 +37,8 @@
                     <th>Symbol</th>
                     <th>Close</th>
                     <th>Volume</th>
+                    <th>High</th>
+                    <th>Low</th>
                     <th>Change</th>
                 </tr>
             </thead>
@@ -42,10 +46,42 @@
                 <!-- Table rows will be dynamically populated here -->
             </tbody>
         </table>
+        <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     </section>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const refreshButton = document.querySelector(".refresh-button");
+            refreshButton.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+    </script>
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 210 || document.documentElement.scrollTop > 210) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
     <script defer src="script.js"></script>
-    <script defer src="buttons.js"></script>
+
 
 </body>
 
