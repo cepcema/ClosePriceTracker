@@ -229,3 +229,18 @@ header.header {
   background-color: #555;
   /* Add a dark-grey background on hover */
 }
+
+.total-change-container {
+  position: absolute;
+  top: 10;
+  right: 20px;
+  /* Adjust this value as needed */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+#save-data-button {
+  margin-left: 15px;
+  margin-top: 15px;
+}
