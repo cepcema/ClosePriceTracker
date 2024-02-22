@@ -19,7 +19,7 @@ To get started with Fixed-Income Price Shift, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/fixed-income-price-shift.git
+git clone https://github.com/cepcema/fixed-income-price-shift.git
 ```
 Open the project in your preferred code editor.
 
