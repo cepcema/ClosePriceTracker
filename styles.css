@@ -1,4 +1,4 @@
-body {
+User body {
   font-family: sans-serif;
   margin: 0;
   padding: 0;
@@ -42,7 +42,7 @@ h1 {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #d9534f;
+  background-color: #228f3d;
   color: white;
   font-family: Consolas, monospace;
 }
@@ -52,7 +52,18 @@ h1 {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #087e8b;
+  background-color: #8b1108;
+  color: white;
+  font-family: Consolas, monospace;
+}
+
+.button-tertiary {
+  margin-left: 80px;
+  margin-right: 50px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #09a2ad;
   color: white;
   font-family: Consolas, monospace;
 }
@@ -174,7 +185,7 @@ header.header {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 20px;
+  padding: 13px;
   font-family: Consolas, monospace;
   /* Set font to Consolas with fallback to generic monospace */
   color: white;
@@ -233,7 +244,17 @@ header.header {
 .total-change-container {
   position: absolute;
   top: 10;
-  right: 20px;
+  right: 230px;
+  /* Adjust this value as needed */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.average-volume-change-container {
+  position: absolute;
+  top: 10;
+  right: 912px;
   /* Adjust this value as needed */
   padding: 10px;
   background-color: #f0f0f0;

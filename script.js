@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateTable(data);
       displayDate(data[0].Date);
       calculateTotalChangePercentage(data); // Calculate total change percentage
+      calculateAverageVolumeChange(data); // Calculate average volume change percentage
     } catch (error) {
       console.error("Error fetching data:", error.message);
     }
@@ -57,24 +58,37 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function calculateTotalChangePercentage(data) {
-    totalChangePercentage = data.reduce((acc, row) => {
-      return acc + parseFloat(row["% change"]);
-    }, 0);
-    console.log(
-      "Total Change Percentage:",
-      totalChangePercentage.toFixed(2) + "%"
-    );
-
+    totalChangePercentage =
+      data.reduce((acc, row) => {
+        return acc + parseFloat(row["Price change"] || 0); // Ensure the value is parsed as a float, default to 0 if undefined
+      }, 0) / data.length;
     const totalChangeContainer = document.getElementById(
       "total-change-container"
     );
-    totalChangeContainer.textContent = `Total Daily Change Percentage: ${totalChangePercentage.toFixed(
+    totalChangeContainer.textContent = `Average Daily Change: ${totalChangePercentage.toFixed(
       2
-    )}%`;
+    )}$`;
+  }
+
+  function calculateAverageVolumeChange(data) {
+    const averageVolumeChangePercentage =
+      data.reduce((acc, row) => {
+        return acc + parseFloat(row["Avg Volume"] || 0); // Ensure the value is parsed as a float, default to 0 if undefined
+      }, 0) / data.length;
+    const averageVolumeChangeContainer = document.getElementById(
+      "average-volume-change-container"
+    );
+    averageVolumeChangeContainer.textContent = `Average Daily Volume: ${averageVolumeChangePercentage.toFixed(
+      0
+    )}`;
   }
 
   function updateTable(rows) {
     const tableBody = document.querySelector("#price-table tbody");
+    if (!rows || rows.length === 0) {
+      console.error("No data to update the table.");
+      return;
+    }
     tableBody.innerHTML = ""; // Clear previous content
 
     for (let i = 0; i < rows.length; i++) {
@@ -146,10 +160,30 @@ document.addEventListener("DOMContentLoaded", function () {
         changePercentValue.includes("-") ? "negative" : "positive"
       );
 
+      const volumeChangePercentCell = document.createElement("td");
+      const volumeChangePercentValue =
+        row["Volume Change %"] !== undefined
+          ? (+row["Volume Change %"]).toFixed(2) + "%"
+          : "N/A";
+      volumeChangePercentCell.textContent =
+        (volumeChangePercentValue.includes("-") ? "" : " ") +
+        volumeChangePercentValue;
+      volumeChangePercentCell.classList.add(
+        volumeChangePercentValue.includes("-") ? "negative" : "positive"
+      );
+
+      const yesterdayVolume = document.createElement("td");
+      yesterdayVolume.textContent =
+        row["Yesterday Volume"] !== undefined
+          ? +row["Yesterday Volume"]
+          : "N/A";
+
       tableRow.appendChild(symbolCell);
       tableRow.appendChild(closeCell);
       tableRow.appendChild(yesterdayCloseCell);
       tableRow.appendChild(volumeCell);
+      tableRow.appendChild(yesterdayVolume);
+      tableRow.appendChild(volumeChangePercentCell);
       tableRow.appendChild(highCell);
       tableRow.appendChild(lowCell);
       tableRow.appendChild(changeDollarCell);
@@ -165,29 +199,46 @@ document.addEventListener("DOMContentLoaded", function () {
     let filteredData;
 
     if (type === "losers") {
-      filteredData = data
-        .filter((row) => row["% change"] < 0)
-        .sort((a, b) => a["% change"] - b["% change"]);
+      // Sorting logic for losers...
+      filteredData = data.slice().sort((a, b) => {
+        const valueA = parseFloat(a["% change"] || 0); // Convert to number, default to 0 if value is undefined
+        const valueB = parseFloat(b["% change"] || 0); // Convert to number, default to 0 if value is undefined
+        return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+      });
     } else if (type === "gainers") {
-      filteredData = data
-        .filter((row) => row["% change"] > 0)
-        .sort((a, b) => b["% change"] - a["% change"]);
+      // Sorting logic for gainers...
+      filteredData = data.slice().sort((a, b) => {
+        const valueA = parseFloat(a["% change"] || 0); // Convert to number, default to 0 if value is undefined
+        const valueB = parseFloat(b["% change"] || 0); // Convert to number, default to 0 if value is undefined
+        return sortOrder === "asc" ? valueB - valueA : valueA - valueB; // Reverse the sorting order for gainers
+      });
     } else if (type === "sort") {
-      if (sortBy === "% change") {
-        // Only consider gainers for sorting by "% change"
-        filteredData = data
-          .filter((row) => row["% change"] > 0)
-          .sort((a, b) => {
-            const valueA = sortOrder === "asc" ? a[sortBy] : b[sortBy];
-            const valueB = sortOrder === "asc" ? b[sortBy] : a[sortBy];
-            return valueA - valueB;
-          });
-      } else {
-        // Sort all data based on the specified column
+      if (sortBy === "Volume Change %") {
+        // Sort data based on the "Volume Change %" column
         filteredData = data.slice().sort((a, b) => {
-          const valueA = sortOrder === "asc" ? a[sortBy] : b[sortBy];
-          const valueB = sortOrder === "asc" ? b[sortBy] : a[sortBy];
-          return valueA - valueB;
+          const valueA = parseFloat(a[sortBy] || 0); // Convert to number, default to 0 if value is undefined
+          const valueB = parseFloat(b[sortBy] || 0); // Convert to number, default to 0 if value is undefined
+          return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+        });
+      } else if (
+        sortBy === "High" ||
+        sortBy === "Low" ||
+        sortBy === "Price change"
+      ) {
+        // Sorting logic for numeric columns (e.g., "High", "Low", "Price change")
+        filteredData = data.slice().sort((a, b) => {
+          const valueA = parseFloat(a[sortBy] || 0); // Convert to number, default to 0 if value is undefined
+          const valueB = parseFloat(b[sortBy] || 0); // Convert to number, default to 0 if value is undefined
+          return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+        });
+      } else {
+        // Sorting logic for string columns (e.g., "Symbol")
+        filteredData = data.slice().sort((a, b) => {
+          const valueA = a[sortBy] || ""; // Default to empty string if value is undefined
+          const valueB = b[sortBy] || ""; // Default to empty string if value is undefined
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
         });
       }
     } else {
@@ -215,6 +266,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   } else {
     console.error("Top Gainers button not found");
+  }
+
+  // Add event listener for the "Volume Change %" button
+  const volumeChangeButton = document.querySelector(".button-tertiary");
+  if (volumeChangeButton) {
+    volumeChangeButton.addEventListener("click", function () {
+      handleButtonClick("sort", "Volume Change %", "desc");
+    });
+  } else {
+    console.error("Volume Change % button not found");
   }
 
   // Add event listener for the "Save Data" button

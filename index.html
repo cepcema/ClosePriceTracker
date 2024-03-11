@@ -12,12 +12,15 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E2X244VF9E"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-E2X244VF9E');
-</script>    
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-E2X244VF9E');
+</script>
 
 <body>
 
@@ -28,8 +31,9 @@
         </div>
 
         <div class="header-right">
-            <button class="button-primary">Top Losers</button>
-            <button class="button-secondary">Top Gainers</button>
+            <button class="button-tertiary">Volume Change %</button>
+            <button class="button-primary">Top Gainers</button>
+            <button class="button-secondary">Top Loosers</button>
             <button class="refresh-button">Refresh</button>
             <form class="search-bar">
                 <input type="text" placeholder="Search For Symbol" id="search-input">
@@ -43,6 +47,7 @@
 
     <!-- New div to display total change percentage -->
     <div id="total-change-container" class="total-change-container"></div>
+    <div id="average-volume-change-container" class="average-volume-change-container"></div>
 
     <section class="table-container">
         <table class="dividend-history-table" id="price-table">
@@ -52,10 +57,12 @@
                     <th>Current Price</th>
                     <th>Yesterday Close</th>
                     <th>Average Volume</th>
+                    <th>Yesterday Volume</th>
+                    <th>Volume Change %</th>
                     <th>High</th>
                     <th>Low</th>
-                    <th>Change $</th>
-                    <th>Change %</th>
+                    <th>Price Change $</th>
+                    <th>Price Change %</th>
 
                 </tr>
             </thead>
@@ -65,9 +72,8 @@
         </table>
         <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     </section>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6063322408576337"
-     crossorigin="anonymous"></script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6063322408576337" crossorigin="anonymous"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const refreshButton = document.querySelector(".refresh-button");
@@ -100,7 +106,7 @@
         }
     </script>
     <script defer src="script.js"></script>
-    
+
 
 
 </body>
