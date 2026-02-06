@@ -1,116 +1,427 @@
-<!DOCTYPE html>
-<html lang="en">
+:root{
+  --bg: #0b1220;
+  --panel: #0f1a2b;
+  --panel-2: #111f33;
+  --border: rgba(255,255,255,0.10);
+  --border-2: rgba(255,255,255,0.16);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.68);
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fixed-Income Price Shift</title>
-  <link rel="stylesheet" href="styles.css?v=1" />
-</head>
+  --pos: #4ade80;
+  --neg: #fb7185;
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E2X244VF9E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E2X244VF9E');
-</script>
+  --btn: rgba(255,255,255,0.10);
+  --btnHover: rgba(255,255,255,0.16);
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  --radius: 14px;
+}
 
-<body>
+* { box-sizing: border-box; }
 
-  <!-- HEADER: Title + Date only -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="header-left">
-        <h1 class="header-left-name">Fixed-Income Price Shift</h1>
-        <p id="date-display"></p>
-      </div>
-    </div>
-  </header>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+  background: var(--bg);
+  color: var(--text);
+}
 
-  <!-- CONTROLS + METRICS -->
-  <section class="controls-wrap">
-    <div class="controls-inner">
+/* ===== Header ===== */
+header.header {
+  position: relative;
+  background-image: url("img/BG.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 18px 16px 22px;
+  color: white;
+  border-bottom: 1px solid var(--border);
+}
 
-      <div class="controls-left">
-        <button id="save-data-button" class="btn btn-outline" type="button">Save Data</button>
-      </div>
+header.header::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.30));
+  pointer-events: none;
+}
 
-      <div class="controls-right">
+.header-inner{
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: visible;
+}
 
-        <button class="btn btn-ghost" id="favorites-button" type="button" aria-haspopup="dialog" aria-expanded="false">
-          Favorites
-        </button>
+.header-left{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 260px;
+}
 
-        <button class="btn btn-ghost button-tertiary" type="button">Volume Change %</button>
-        <button class="btn btn-primary button-primary" type="button">Top Gainers</button>
-        <button class="btn btn-danger button-secondary" type="button">Top Losers</button>
+.header-left-name{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
 
-        <button class="btn btn-outline refresh-button" type="button">Refresh</button>
+#date-display{
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.80);
+}
 
-        <form class="search-bar" autocomplete="off">
-          <input type="text" placeholder="Search symbol…" id="search-input" />
-          <button class="btn btn-outline" type="submit">Search</button>
-        </form>
+/* ===== Controls + Metrics ===== */
+.controls-wrap{
+  max-width: 1200px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+}
 
-        <!-- Favorites popup -->
-        <div id="favorites-popup" class="popup" role="dialog" aria-label="Favorites panel" aria-hidden="true">
-          <div class="popup-header">
-            <div class="popup-title">Favorites</div>
-            <button class="popup-close" id="favorites-close" type="button" aria-label="Close favorites">✕</button>
-          </div>
+.controls-inner{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.20);
+  overflow: visible;
+}
 
-          <label class="popup-row">
-            <input type="checkbox" id="favorites-only-toggle" />
-            <span>Show favorites only</span>
-          </label>
+.controls-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-          <div class="popup-list" id="favorites-list"></div>
+.controls-right{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: visible;
+}
 
-          <div class="popup-actions">
-            <button class="btn btn-outline" id="favorites-clear" type="button">Clear favorites</button>
-          </div>
-        </div>
+.metrics-inner{
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
 
-      </div>
-    </div>
+/* ===== Buttons ===== */
+.btn{
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--btn);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+.btn:hover{ background: var(--btnHover); border-color: var(--border-2); }
+.btn:active{ transform: translateY(1px); }
 
-    <div class="metrics-inner">
-      <div id="total-change-container" class="metric-card"></div>
-      <div id="average-volume-change-container" class="metric-card"></div>
-      <div id="status-indicator" class="metric-card metric-muted">Loading…</div>
-    </div>
-  </section>
+.btn-primary{
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+.btn-primary:hover{
+  background: rgba(34, 197, 94, 0.26);
+  border-color: rgba(34, 197, 94, 0.45);
+}
 
-  <!-- TABLE -->
-  <section class="table-container">
-    <table class="dividend-history-table" id="price-table">
-      <thead>
-        <tr>
-          <th class="col-star" title="Favorite">★</th>
-          <th data-key="Symbol">Symbol</th>
-          <th data-key="Current price" class="num">Current Price</th>
-          <th data-key="Yesterday Close" class="num">Yesterday Close</th>
-          <th data-key="Avg Volume" class="num">Average Volume</th>
-          <th data-key="Yesterday Volume" class="num">Yesterday Volume</th>
-          <th data-key="Volume Change %" class="num">Volume Change %</th>
-          <th data-key="High" class="num">High</th>
-          <th data-key="Low" class="num">Low</th>
-          <th data-key="Price change" class="num">Price Change $</th>
-          <th data-key="% change" class="num">Price Change %</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+.btn-danger{
+  background: rgba(244, 63, 94, 0.16);
+  border-color: rgba(244, 63, 94, 0.32);
+}
+.btn-danger:hover{
+  background: rgba(244, 63, 94, 0.24);
+  border-color: rgba(244, 63, 94, 0.44);
+}
 
-    <button id="myBtn" title="Go to top" type="button">Top</button>
-  </section>
+.btn-outline{ background: rgba(0,0,0,0.20); }
+.btn-ghost{ background: rgba(255,255,255,0.08); }
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6063322408576337"
-    crossorigin="anonymous"></script>
+.btn.is-active{
+  outline: 2px solid rgba(255,255,255,0.22);
+  outline-offset: 1px;
+}
 
-  <script defer src="script.js?v=1"></script>
-</body>
+/* ===== Search ===== */
+.search-bar{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.25);
+}
+.search-bar input[type="text"]{
+  width: 210px;
+  padding: 8px 8px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+}
+.search-bar input::placeholder{ color: rgba(255,255,255,0.60); }
 
-</html>
+/* ===== Metrics ===== */
+.metric-card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  min-width: 220px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+}
+.metric-muted{ color: var(--muted); }
+
+/* ===== Table (mobile scroll) ===== */
+.table-container{
+  max-width: 1200px;
+  margin: 14px auto 30px;
+  padding: 0 16px;
+
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dividend-history-table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+
+  min-width: 980px;
+}
+
+.dividend-history-table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--panel-2);
+  color: rgba(255,255,255,0.92);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: left;
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dividend-history-table thead th.num { text-align: right; }
+.dividend-history-table thead th.col-star{
+  width: 44px;
+  text-align: center;
+  cursor: default;
+}
+
+.dividend-history-table tbody td{
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.88);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.dividend-history-table tbody tr:nth-child(odd){ background: rgba(255,255,255,0.02); }
+.dividend-history-table tbody tr:nth-child(even){ background: rgba(0,0,0,0.06); }
+.dividend-history-table tbody tr:hover{ background: rgba(255,255,255,0.07); }
+
+.dividend-history-table td.num{ text-align: right; font-variant-numeric: tabular-nums; }
+.dividend-history-table td.star-cell{ text-align: center; }
+
+a.symbol-link{
+  color: rgba(255,255,255,0.92);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(255,255,255,0.35);
+}
+a.symbol-link:hover{
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.70);
+}
+
+.positive{ color: var(--pos); font-weight: 700; }
+.negative{ color: var(--neg); font-weight: 700; }
+
+/* ===== Star button ===== */
+.star-btn{
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.star-btn:hover{ background: rgba(255,255,255,0.12); }
+.star-btn:active{ transform: translateY(1px); }
+.star-btn.is-on{
+  background: rgba(250, 204, 21, 0.18);
+  border-color: rgba(250, 204, 21, 0.35);
+  color: rgba(250, 204, 21, 0.95);
+}
+
+/* ===== Favorites popup ===== */
+.popup{
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 320px;
+  background: rgba(12, 18, 32, 0.96);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  display: none;
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+}
+
+.popup.open{ display: block; }
+
+.popup-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.popup-title{ font-weight: 800; letter-spacing: 0.2px; }
+
+.popup-close{
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.07);
+  color: var(--text);
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.popup-row{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0 12px;
+  color: var(--muted);
+}
+
+.popup-list{
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 8px;
+  background: rgba(255,255,255,0.03);
+}
+
+.fav-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.90);
+}
+.fav-item:hover{ background: rgba(255,255,255,0.08); }
+
+.fav-symbol{ font-weight: 700; }
+
+.popup-actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* ===== Back to top ===== */
+#myBtn{
+  display: none;
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 99;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.35);
+  color: var(--text);
+  cursor: pointer;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font: inherit;
+  box-shadow: var(--shadow);
+}
+#myBtn:hover{ background: rgba(255,255,255,0.12); }
+
+/* ===== Mobile ===== */
+@media (max-width: 860px) {
+  .controls-inner{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls-left,
+  .controls-right{
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .controls-right{
+    gap: 8px;
+  }
+
+  .search-bar{
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-bar input[type="text"]{
+    width: 100%;
+    min-width: 0;
+  }
+
+  .btn{
+    padding: 12px 14px;
+  }
+
+  .metrics-inner{
+    flex-direction: column;
+  }
+
+  .metric-card{
+    min-width: unset;
+    width: 100%;
+  }
+
+  .popup{
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: 100%;
+  }
+}
