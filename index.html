@@ -2,113 +2,110 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed-Income Price Shift</title>
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Other head elements -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixed-Income Price Shift</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E2X244VF9E"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-E2X244VF9E');
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E2X244VF9E');
 </script>
 
 <body>
 
-    <header class="header">
-        <div class="header-left">
-            <h1 class="header-left-name">Fixed-Income Price Shift</h1>
-            <p id="date-display"></p>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <h1 class="header-left-name">Fixed-Income Price Shift</h1>
+        <p id="date-display"></p>
+      </div>
+
+      <div class="header-right">
+        <button class="btn btn-ghost" id="favorites-button" type="button" aria-haspopup="dialog" aria-expanded="false">
+          Favorites
+        </button>
+
+        <button class="btn btn-ghost button-tertiary" type="button">Volume Change %</button>
+        <button class="btn btn-primary button-primary" type="button">Top Gainers</button>
+        <button class="btn btn-danger button-secondary" type="button">Top Losers</button>
+
+        <button class="btn btn-outline refresh-button" type="button">Refresh</button>
+
+        <form class="search-bar" autocomplete="off">
+          <input type="text" placeholder="Search symbol…" id="search-input" />
+          <button class="btn btn-outline" type="submit">Search</button>
+        </form>
+
+        <!-- Favorites popup -->
+        <div id="favorites-popup" class="popup" role="dialog" aria-label="Favorites panel" aria-hidden="true">
+          <div class="popup-header">
+            <div class="popup-title">Favorites</div>
+            <button class="popup-close" id="favorites-close" type="button" aria-label="Close favorites">✕</button>
+          </div>
+
+          <label class="popup-row">
+            <input type="checkbox" id="favorites-only-toggle" />
+            <span>Show favorites only</span>
+          </label>
+
+          <div class="popup-list" id="favorites-list">
+            <!-- Filled by JS -->
+          </div>
+
+          <div class="popup-actions">
+            <button class="btn btn-outline" id="favorites-clear" type="button">Clear favorites</button>
+          </div>
         </div>
 
-        <div class="header-right">
-            <button class="button-tertiary">Volume Change %</button>
-            <button class="button-primary">Top Gainers</button>
-            <button class="button-secondary">Top Loosers</button>
-            <button class="refresh-button">Refresh</button>
-            <form class="search-bar">
-                <input type="text" placeholder="Search For Symbol" id="search-input">
-                <button type="submit">Search</button>
-            </form>
+      </div>
+    </div>
+  </header>
 
+  <div class="toolbar">
+    <button id="save-data-button" class="btn btn-outline" type="button">Save Data</button>
 
-        </div>
-    </header>
-    <button id="save-data-button">Save Data</button>
+    <div class="metrics">
+      <div id="total-change-container" class="metric-card"></div>
+      <div id="average-volume-change-container" class="metric-card"></div>
+      <div id="status-indicator" class="metric-card metric-muted">Loading…</div>
+    </div>
+  </div>
 
-    <!-- New div to display total change percentage -->
-    <div id="total-change-container" class="total-change-container"></div>
-    <div id="average-volume-change-container" class="average-volume-change-container"></div>
+  <section class="table-container">
+    <table class="dividend-history-table" id="price-table">
+      <thead>
+        <tr>
+          <th class="col-star" title="Favorite">★</th>
+          <th data-key="Symbol">Symbol</th>
+          <th data-key="Current price" class="num">Current Price</th>
+          <th data-key="Yesterday Close" class="num">Yesterday Close</th>
+          <th data-key="Avg Volume" class="num">Average Volume</th>
+          <th data-key="Yesterday Volume" class="num">Yesterday Volume</th>
+          <th data-key="Volume Change %" class="num">Volume Change %</th>
+          <th data-key="High" class="num">High</th>
+          <th data-key="Low" class="num">Low</th>
+          <th data-key="Price change" class="num">Price Change $</th>
+          <th data-key="% change" class="num">Price Change %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be dynamically populated here -->
+      </tbody>
+    </table>
 
-    <section class="table-container">
-        <table class="dividend-history-table" id="price-table">
-            <thead>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Current Price</th>
-                    <th>Yesterday Close</th>
-                    <th>Average Volume</th>
-                    <th>Yesterday Volume</th>
-                    <th>Volume Change %</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Price Change $</th>
-                    <th>Price Change %</th>
+    <button id="myBtn" title="Go to top" type="button">Top</button>
+  </section>
 
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows will be dynamically populated here -->
-            </tbody>
-        </table>
-        <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-    </section>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6063322408576337"
+    crossorigin="anonymous"></script>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6063322408576337" crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const refreshButton = document.querySelector(".refresh-button");
-            refreshButton.addEventListener("click", function() {
-                location.reload();
-            });
-        });
-    </script>
-    <script>
-        // Get the button
-        let mybutton = document.getElementById("myBtn");
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {
-            scrollFunction()
-        };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 210 || document.documentElement.scrollTop > 210) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-    </script>
-    <script defer src="script.js"></script>
-
-
-
+  <script defer src="script.js"></script>
 </body>
 
 </html>
