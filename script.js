@@ -224,7 +224,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function resolvePctKey(row) {
-    // Use the first matching key that exists in the row
     const keys = ["% change", "% Change", "Price Change %", "Price change %", "%change"];
     for (const k of keys) if (row && row[k] !== undefined) return k;
     return "% change";
@@ -369,18 +368,13 @@ document.addEventListener("DOMContentLoaded", function () {
       tr.appendChild(makeNumTd(yesterdayClose, 2));
       tr.appendChild(makeNumTd(avgVol, 0));
       tr.appendChild(makeNumTd(yVol, 0));
-
-      const volPctTd = makePctTd(volChg);
-      tr.appendChild(volPctTd);
+      tr.appendChild(makePctTd(volChg));
 
       tr.appendChild(makeNumTd(high, 2));
       tr.appendChild(makeNumTd(low, 2));
 
-      const priceChgTd = makeDollarTd(priceChg);
-      tr.appendChild(priceChgTd);
-
-      const pctTd = makePctTd(pct);
-      tr.appendChild(pctTd);
+      tr.appendChild(makeDollarTd(priceChg));
+      tr.appendChild(makePctTd(pct));
 
       tableBody.appendChild(tr);
     }
@@ -389,8 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function makeNumTd(value, decimals) {
     const td = document.createElement("td");
     td.className = "num";
-    if (value === undefined) td.textContent = "N/A";
-    else td.textContent = (+value).toFixed(decimals);
+    td.textContent = value === undefined ? "N/A" : (+value).toFixed(decimals);
     return td;
   }
 
@@ -490,7 +483,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const avgVolContainer = document.getElementById("average-volume-change-container");
       if (avgVolContainer) avgVolContainer.textContent = `Average Daily Volume: ${avgVol.toFixed(0)}`;
 
-      // Render safely so status updates even if a render issue happens
+      // Render safely + update status
       try {
         applyAllAndRender();
         const now = new Date();
