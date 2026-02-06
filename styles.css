@@ -1,267 +1,369 @@
-User body {
-  font-family: sans-serif;
+:root{
+  --bg: #0b1220;
+  --panel: #0f1a2b;
+  --panel-2: #111f33;
+  --border: rgba(255,255,255,0.10);
+  --border-2: rgba(255,255,255,0.14);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.68);
+
+  --pos: #4ade80;
+  --neg: #fb7185;
+
+  --btn: rgba(255,255,255,0.10);
+  --btnHover: rgba(255,255,255,0.16);
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
   margin: 0;
   padding: 0;
-  font-family: Consolas, monospace;
+  font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+  background: var(--bg);
+  color: var(--text);
 }
 
+/* Header */
 header.header {
-  background-color: #cbf7ed;
-  padding: 20px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.header-left-name {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: left;
-}
-
-h1 {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: left;
-}
-
-.header-right {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  width: 100%;
-}
-
-.button-primary {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #228f3d;
-  color: white;
-  font-family: Consolas, monospace;
-}
-
-.button-secondary {
-  margin-left: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #8b1108;
-  color: white;
-  font-family: Consolas, monospace;
-}
-
-.button-tertiary {
-  margin-left: 80px;
-  margin-right: 50px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #09a2ad;
-  color: white;
-  font-family: Consolas, monospace;
-}
-
-.refresh-button {
-  margin-left: 30px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: hsl(278, 55%, 26%);
-  color: white;
-  font-family: Consolas, monospace;
-}
-
-.search-bar {
-  display: flex;
-  width: 200px;
-  padding: 10px;
-  border: 2px solid #ccc;
-  margin-left: 10px;
-}
-
-input[type="text"] {
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-}
-
-button {
-  padding: 5px 10px;
-  background-color: #0b3954;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-family: Consolas, monospace;
-  margin-left: -10px;
-}
-
-.table-container {
-  margin: 20px 0;
-  padding: 20px;
-  border: 1px solid #ccc;
-}
-
-.dividend-history-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-}
-
-.dividend-history-table th,
-.dividend-history-table td {
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-.dividend-history-table th {
-  background-color: #f2f2f2;
-}
-
-/* styles.css */
-
-/* Your existing styles */
-
-.dividend-history-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.dividend-history-table th,
-.dividend-history-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.dividend-history-table th {
-  background-color: #8ea8c3;
-}
-
-.dividend-history-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-  /* Set the background color for even rows */
-}
-
-.dividend-history-table tbody tr:nth-child(odd) {
-  background-color: #e6e6e6;
-  /* Set the background color for odd rows */
-}
-
-.dividend-history-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.dividend-history-table tbody tr:nth-child(odd) {
-  background-color: #e6e6e6;
-}
-
-/* Add styles for the date display */
-
-#date-display {
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.positive {
-  color: green;
-}
-
-.negative {
-  color: red;
-}
-
-header.header {
+  position: relative;
   background-image: url("img/BG.png");
-  /* Assuming the CSS file is in the "PriceChangeTracker API FETCH JS" directory */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 13px;
-  font-family: Consolas, monospace;
-  /* Set font to Consolas with fallback to generic monospace */
+  padding: 18px 16px;
   color: white;
-  /* Set text color to white */
+  border-bottom: 1px solid var(--border);
 }
 
-.header-left {
+header.header::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.30));
+  pointer-events: none;
+}
+
+.header-inner{
+  position: relative;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-left{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 260px;
+}
+
+.header-left-name{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+#date-display{
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.80);
+}
+
+.header-right{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Buttons */
+.btn{
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--btn);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+.btn:hover{ background: var(--btnHover); border-color: var(--border-2); }
+.btn:active{ transform: translateY(1px); }
+
+.btn-primary{
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+.btn-primary:hover{
+  background: rgba(34, 197, 94, 0.26);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.btn-danger{
+  background: rgba(244, 63, 94, 0.16);
+  border-color: rgba(244, 63, 94, 0.32);
+}
+.btn-danger:hover{
+  background: rgba(244, 63, 94, 0.24);
+  border-color: rgba(244, 63, 94, 0.44);
+}
+
+.btn-outline{
+  background: rgba(0,0,0,0.20);
+}
+
+.btn-ghost{
+  background: rgba(255,255,255,0.08);
+}
+
+.btn.is-active{
+  outline: 2px solid rgba(255,255,255,0.22);
+  outline-offset: 1px;
+}
+
+/* Search bar */
+.search-bar{
   display: flex;
   align-items: center;
-  width: 100%;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.25);
 }
-
-.header-left-name {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: left;
-}
-
-#myBtn {
-  display: none;
-  /* Hidden by default */
-  position: fixed;
-  /* Fixed/sticky position */
-  bottom: 20px;
-  /* Place the button at the bottom of the page */
-  right: 30px;
-  /* Place the button 30px from the right */
-  z-index: 99;
-  /* Make sure it does not overlap */
+.search-bar input[type="text"]{
+  width: 210px;
+  padding: 8px 8px;
   border: none;
-  /* Remove borders */
   outline: none;
-  /* Remove outline */
-  background-color: red;
-  /* Set a background color */
-  color: white;
-  /* Text color */
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+}
+.search-bar input::placeholder{ color: rgba(255,255,255,0.60); }
+
+/* Toolbar + metrics */
+.toolbar{
+  max-width: 1200px;
+  margin: 14px auto 0;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metrics{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.metric-card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  min-width: 220px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+}
+
+.metric-muted{
+  color: var(--muted);
+}
+
+/* Table */
+.table-container{
+  max-width: 1200px;
+  margin: 14px auto 30px;
+  padding: 0 16px;
+}
+
+.dividend-history-table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.dividend-history-table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--panel-2);
+  color: rgba(255,255,255,0.92);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: left;
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
   cursor: pointer;
-  /* Add a mouse pointer on hover */
-  padding: 15px;
-  /* Some padding */
+}
+
+.dividend-history-table thead th.num { text-align: right; }
+.dividend-history-table thead th.col-star{
+  width: 44px;
+  text-align: center;
+  cursor: default;
+}
+
+.dividend-history-table tbody td{
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.88);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.dividend-history-table tbody tr:nth-child(odd){ background: rgba(255,255,255,0.02); }
+.dividend-history-table tbody tr:nth-child(even){ background: rgba(0,0,0,0.06); }
+.dividend-history-table tbody tr:hover{ background: rgba(255,255,255,0.07); }
+
+.dividend-history-table td.num{ text-align: right; font-variant-numeric: tabular-nums; }
+.dividend-history-table td.star-cell{ text-align: center; }
+
+a.symbol-link{
+  color: rgba(255,255,255,0.92);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(255,255,255,0.35);
+}
+a.symbol-link:hover{
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.70);
+}
+
+.positive{ color: var(--pos); font-weight: 700; }
+.negative{ color: var(--neg); font-weight: 700; }
+
+/* Star button */
+.star-btn{
+  width: 28px;
+  height: 28px;
   border-radius: 10px;
-  /* Rounded corners */
-  font-size: 18px;
-  /* Increase font size */
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.star-btn:hover{ background: rgba(255,255,255,0.12); }
+.star-btn:active{ transform: translateY(1px); }
+.star-btn.is-on{
+  background: rgba(250, 204, 21, 0.18);
+  border-color: rgba(250, 204, 21, 0.35);
+  color: rgba(250, 204, 21, 0.95);
 }
 
-#myBtn:hover {
-  background-color: #555;
-  /* Add a dark-grey background on hover */
-}
-
-.total-change-container {
+/* Popup */
+.popup{
   position: absolute;
-  top: 10;
-  right: 230px;
-  /* Adjust this value as needed */
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 320px;
+  background: rgba(12, 18, 32, 0.96);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  display: none;
+  backdrop-filter: blur(8px);
 }
 
-.average-volume-change-container {
-  position: absolute;
-  top: 10;
-  right: 912px;
-  /* Adjust this value as needed */
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+.popup.open{ display: block; }
+
+.popup-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-#save-data-button {
-  margin-left: 15px;
-  margin-top: 15px;
+.popup-title{
+  font-weight: 800;
+  letter-spacing: 0.2px;
 }
+
+.popup-close{
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.07);
+  color: var(--text);
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.popup-row{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0 12px;
+  color: var(--muted);
+}
+
+.popup-list{
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 8px;
+  background: rgba(255,255,255,0.03);
+}
+
+.fav-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.90);
+}
+.fav-item:hover{ background: rgba(255,255,255,0.08); }
+
+.fav-symbol{
+  font-weight: 700;
+}
+
+.popup-actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Back to top button */
+#myBtn{
+  display: none;
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 99;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.35);
+  color: var(--text);
+  cursor: pointer;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font: inherit;
+  box-shadow: var(--shadow);
+}
+#myBtn:hover{ background: rgba(255,255,255,0.12); }
