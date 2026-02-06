@@ -3,7 +3,7 @@
   --panel: #0f1a2b;
   --panel-2: #111f33;
   --border: rgba(255,255,255,0.10);
-  --border-2: rgba(255,255,255,0.14);
+  --border-2: rgba(255,255,255,0.16);
   --text: rgba(255,255,255,0.92);
   --muted: rgba(255,255,255,0.68);
 
@@ -26,14 +26,14 @@ body {
   color: var(--text);
 }
 
-/* Header */
+/* ===== Header (Title + Date only) ===== */
 header.header {
   position: relative;
   background-image: url("img/BG.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 18px 16px;
+  padding: 18px 16px 22px;
   color: white;
   border-bottom: 1px solid var(--border);
 }
@@ -48,12 +48,9 @@ header.header::before{
 
 .header-inner{
   position: relative;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
+  overflow: visible;
 }
 
 .header-left{
@@ -76,16 +73,52 @@ header.header::before{
   color: rgba(255,255,255,0.80);
 }
 
-.header-right{
+/* ===== Controls + Metrics below header ===== */
+.controls-wrap{
+  max-width: 1200px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+}
+
+.controls-inner{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.20);
+  overflow: visible; /* important for popup */
+}
+
+.controls-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controls-right{
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
   position: relative;
+  overflow: visible; /* important for popup */
 }
 
-/* Buttons */
+.metrics-inner{
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+/* ===== Buttons ===== */
 .btn{
   appearance: none;
   border: 1px solid var(--border);
@@ -133,7 +166,7 @@ header.header::before{
   outline-offset: 1px;
 }
 
-/* Search bar */
+/* ===== Search bar ===== */
 .search-bar{
   display: flex;
   align-items: center;
@@ -154,23 +187,7 @@ header.header::before{
 }
 .search-bar input::placeholder{ color: rgba(255,255,255,0.60); }
 
-/* Toolbar + metrics */
-.toolbar{
-  max-width: 1200px;
-  margin: 14px auto 0;
-  padding: 0 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.metrics{
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: stretch;
-}
-
+/* ===== Metrics cards ===== */
 .metric-card{
   background: var(--panel);
   border: 1px solid var(--border);
@@ -179,12 +196,9 @@ header.header::before{
   min-width: 220px;
   box-shadow: 0 8px 18px rgba(0,0,0,0.22);
 }
+.metric-muted{ color: var(--muted); }
 
-.metric-muted{
-  color: var(--muted);
-}
-
-/* Table */
+/* ===== Table ===== */
 .table-container{
   max-width: 1200px;
   margin: 14px auto 30px;
@@ -205,7 +219,7 @@ header.header::before{
 .dividend-history-table thead th{
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 2; /* sticky header baseline */
   background: var(--panel-2);
   color: rgba(255,255,255,0.92);
   font-weight: 700;
@@ -252,7 +266,7 @@ a.symbol-link:hover{
 .positive{ color: var(--pos); font-weight: 700; }
 .negative{ color: var(--neg); font-weight: 700; }
 
-/* Star button */
+/* ===== Star button ===== */
 .star-btn{
   width: 28px;
   height: 28px;
@@ -273,7 +287,7 @@ a.symbol-link:hover{
   color: rgba(250, 204, 21, 0.95);
 }
 
-/* Popup */
+/* ===== Favorites popup (fixed layering above sticky header) ===== */
 .popup{
   position: absolute;
   right: 0;
@@ -286,6 +300,7 @@ a.symbol-link:hover{
   padding: 12px;
   display: none;
   backdrop-filter: blur(8px);
+  z-index: 9999; /* IMPORTANT: above table sticky header */
 }
 
 .popup.open{ display: block; }
@@ -340,9 +355,7 @@ a.symbol-link:hover{
 }
 .fav-item:hover{ background: rgba(255,255,255,0.08); }
 
-.fav-symbol{
-  font-weight: 700;
-}
+.fav-symbol{ font-weight: 700; }
 
 .popup-actions{
   display: flex;
@@ -350,7 +363,7 @@ a.symbol-link:hover{
   margin-top: 10px;
 }
 
-/* Back to top button */
+/* ===== Back to top button ===== */
 #myBtn{
   display: none;
   position: fixed;
