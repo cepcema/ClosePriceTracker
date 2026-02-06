@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fixed-Income Price Shift</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=1" />
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -19,14 +19,26 @@
 
 <body>
 
+  <!-- HEADER: Title + Date only (no buttons here) -->
   <header class="header">
     <div class="header-inner">
       <div class="header-left">
         <h1 class="header-left-name">Fixed-Income Price Shift</h1>
         <p id="date-display"></p>
       </div>
+    </div>
+  </header>
 
-      <div class="header-right">
+  <!-- CONTROLS BAR (moved buttons out of header) -->
+  <section class="controls-wrap">
+    <div class="controls-inner">
+
+      <div class="controls-left">
+        <button id="save-data-button" class="btn btn-outline" type="button">Save Data</button>
+      </div>
+
+      <div class="controls-right">
+
         <button class="btn btn-ghost" id="favorites-button" type="button" aria-haspopup="dialog" aria-expanded="false">
           Favorites
         </button>
@@ -42,7 +54,7 @@
           <button class="btn btn-outline" type="submit">Search</button>
         </form>
 
-        <!-- Favorites popup -->
+        <!-- Favorites popup (now anchored to controls bar) -->
         <div id="favorites-popup" class="popup" role="dialog" aria-label="Favorites panel" aria-hidden="true">
           <div class="popup-header">
             <div class="popup-title">Favorites</div>
@@ -54,9 +66,7 @@
             <span>Show favorites only</span>
           </label>
 
-          <div class="popup-list" id="favorites-list">
-            <!-- Filled by JS -->
-          </div>
+          <div class="popup-list" id="favorites-list"></div>
 
           <div class="popup-actions">
             <button class="btn btn-outline" id="favorites-clear" type="button">Clear favorites</button>
@@ -65,18 +75,16 @@
 
       </div>
     </div>
-  </header>
 
-  <div class="toolbar">
-    <button id="save-data-button" class="btn btn-outline" type="button">Save Data</button>
-
-    <div class="metrics">
+    <!-- METRICS ROW -->
+    <div class="metrics-inner">
       <div id="total-change-container" class="metric-card"></div>
       <div id="average-volume-change-container" class="metric-card"></div>
       <div id="status-indicator" class="metric-card metric-muted">Loading…</div>
     </div>
-  </div>
+  </section>
 
+  <!-- TABLE -->
   <section class="table-container">
     <table class="dividend-history-table" id="price-table">
       <thead>
@@ -94,9 +102,7 @@
           <th data-key="% change" class="num">Price Change %</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Table rows will be dynamically populated here -->
-      </tbody>
+      <tbody></tbody>
     </table>
 
     <button id="myBtn" title="Go to top" type="button">Top</button>
@@ -105,7 +111,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6063322408576337"
     crossorigin="anonymous"></script>
 
-  <script defer src="script.js"></script>
+  <script defer src="script.js?v=1"></script>
 </body>
 
 </html>
